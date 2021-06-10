@@ -1,22 +1,31 @@
 <?php
-  require "ConnectDB.php";
-  $input = file_get_contents('php://input');
-  $input=json_decode($input);
+  if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    header('Content-Type:application/json;charset=UTF-8');
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods:GET,POST');
+    header('Access-Control-Allow-Headers: *');
+    require "ConnectDB.php";
+    $input = file_get_contents('php://input');
+    $input=json_decode($input);
 
-  $Account=$input->Account;
-  $Password=$input->Password;
+    $Account=$input->Account;
+    $Password=$input->Password;
 
-  $sql = "SELECT * FROM user WHERE Account='$Account' AND Password='$Password'";
-  $result = $conn->query($sql);
-  if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    if($row["Admin"]=='true'){
-      echo "管理者";
+    $sql = "SELECT * FROM user WHERE Account='$Account' AND Password='$Password'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      $tmp = array(
+        'id' => $row["id"],
+        'Admin' => $row["Admin"],
+        'message' => "登入成功"
+      );
     }
     else{
-      echo "使用者";
+      $tmp = array(
+        'message' => "帳號或密碼錯誤"
+      );
     }
+    echo json_encode($tmp);
   }
-  else{
-    echo "登入失敗";
-  }
+?>
