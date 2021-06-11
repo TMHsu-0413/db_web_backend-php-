@@ -1,9 +1,9 @@
 <?php
+  header('Content-Type:application/json;charset=UTF-8');
+  header('Access-Control-Allow-Origin:*');
+  header('Access-Control-Allow-Methods:GET,POST');
+  header('Access-Control-Allow-Headers:*');
   if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    header('Content-Type:application/json;charset=UTF-8');
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Methods:GET,POST');
-    header('Access-Control-Allow-Headers: *');
     require "ConnectDB.php";
     $input = file_get_contents('php://input');
     $input=json_decode($input);
@@ -17,7 +17,7 @@
       $row = $result->fetch_assoc();
       $tmp = array(
         'id' => $row["id"],
-        'Admin' => $row["Admin"],
+        'admin' => $row["Admin"],
         'message' => "登入成功"
       );
     }

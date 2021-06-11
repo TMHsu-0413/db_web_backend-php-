@@ -1,9 +1,9 @@
 <?php
+  header('Content-Type:application/json;charset=UTF-8');
+  header('Access-Control-Allow-Origin: *');
+  header('Access-Control-Allow-Methods:GET,POST');
+  header('Access-Control-Allow-Headers: *');
   if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    header('Content-Type:application/json;charset=UTF-8');
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Methods:GET,POST');
-    header('Access-Control-Allow-Headers: *');
     require "ConnectDB.php";
     $input = file_get_contents('php://input');
     $input=json_decode($input);
@@ -15,7 +15,6 @@
     $Phone=$input->Phone;
     $Address=$input->Address;
     $Admin=$input->Admin;
-
     $sql = "SELECT * FROM user WHERE Account='$Account'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
@@ -28,3 +27,4 @@
       echo "已新增";
     }
   }
+?>
