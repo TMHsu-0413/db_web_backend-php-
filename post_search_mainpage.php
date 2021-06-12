@@ -6,7 +6,7 @@
   if($_SERVER['REQUEST_METHOD'] == 'GET'){
     require "ConnectDB.php";
 
-    $sql = "SELECT * FROM post";
+    $sql = "SELECT * FROM post WHERE Verify='1'";
     $result = $conn->query($sql);
     $a=array();
     if ($result->num_rows > 0) {
