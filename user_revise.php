@@ -7,10 +7,14 @@
     require "ConnectDB.php";
     $input = file_get_contents('php://input');
     $input=json_decode($input);
+
     $idx = $input->id;
-    $date = $input->date;
-    $edit = $input->CanEdit;
-    $sql = "UPDATE post SET Verify='1',Date='$date',CanEdit='$edit'  WHERE id='$idx'";
+    $Password = $input->Password;
+    $Phone = $input->Phone;
+    $Address = $input->Address;
+    $Email = $input->Email;
+
+    $sql = "UPDATE user SET Password='$Password',Phone='$Phone',Address='$Address',Email='$Email'  WHERE id='$idx'";
     $result = $conn->query($sql);
     echo "ok";
     $conn->close();

@@ -7,12 +7,21 @@
     require "ConnectDB.php";
     $input = file_get_contents('php://input');
     $input=json_decode($input);
-    $idx = $input->id;
-    $date = $input->date;
-    $edit = $input->CanEdit;
-    $sql = "UPDATE post SET Verify='1',Date='$date',CanEdit='$edit'  WHERE id='$idx'";
+
+    $id=$input->id;
+
+    $sql = "SELECT * FROM user WHERE id='$id'";
     $result = $conn->query($sql);
-    echo "ok";
+    $a=array();
+    $b=null;
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+          $b=array("Email"=>$row["Email"],
+          "Address"=>$row["Address"],
+          "Phone"=>$row["Phone"]);
+        }
+    }
+    echo json_encode($b);
     $conn->close();
   }
 ?>

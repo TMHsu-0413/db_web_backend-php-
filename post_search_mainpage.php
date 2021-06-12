@@ -17,7 +17,8 @@
           $row2 = $Name->fetch_assoc();
           $b=array("ImageName"=>$row["ImageName"],
                    "Itemname"=>$row["Itemname"],
-                   "poster"=>$row2["Name"]);
+                   "poster"=>$row2["Name"],
+                   "id"=>$row["id"]);
           array_push($a,$b);
         }
     }

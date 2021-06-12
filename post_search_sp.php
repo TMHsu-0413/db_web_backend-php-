@@ -19,11 +19,13 @@
           $Name = $conn->query($sql2);
           $row2 = $Name->fetch_assoc();
           $b=array("Poster_id"=>$row2["Name"],
+                   "Poster_id1"=>$row["Poster_id"],
                    "Itemname"=>$row["Itemname"],
                    "ItemNum"=>$row["ItemNum"],
                    "ImageName"=>$row["ImageName"],
                    "ItemAddress"=>$row["ItemAddress"],
                    "ItemSituation"=>$row["ItemSituation"],
+                   "ItemFrom"=>$row["ItemFrom"],
                    "Donate"=>$row["Donate"],
                    "WantItemName"=>$row["WantItemName"],
                    "WantItemSituation"=>$row["WantItemSituation"],
