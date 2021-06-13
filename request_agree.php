@@ -11,7 +11,8 @@
 
     $sql = "UPDATE request_change SET success='1',changed='1' WHERE id='$idx'";
     $result = $conn->query($sql);
-    echo "ok";
+    echo json_encode(array('message'=>"已同意交換!"));
+    http_response_code(201);
     $conn->close();
   }
 ?>

@@ -24,7 +24,8 @@
     Donate='$Donate',WantItemName='$WantItemName',WantItemSituation='$WantItemSituation'
     ,ItemFrom='$ItemFrom'  WHERE id='$idx'";
     $result = $conn->query($sql);
-    echo "ok";
+    echo json_encode(array('message'=>"已成功修改"));
+    http_response_code(201);
     $conn->close();
   }
 ?>

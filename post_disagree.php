@@ -10,7 +10,7 @@
     $idx = $input->id;
     $sql = "DELETE FROM post WHERE id='$idx'";
     $result = $conn->query($sql);
-    echo "ok";
+    echo json_encode(array('message'=>"貼文未通過審核!"));
     $conn->close();
   }
 ?>

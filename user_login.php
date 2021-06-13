@@ -18,14 +18,17 @@
       $tmp = array(
         'id' => $row["id"],
         'admin' => $row["Admin"],
-        'message' => "登入成功"
+        'message' => "歡迎! "
       );
+      echo json_encode($tmp);
+      http_response_code(201);
     }
     else{
       $tmp = array(
         'message' => "帳號或密碼錯誤"
       );
+      echo json_encode($tmp);
+      http_response_code(403);
     }
-    echo json_encode($tmp);
   }
 ?>

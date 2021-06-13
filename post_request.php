@@ -25,8 +25,8 @@
                    "Poster_id"=>$row["Poster_id"],
                    "Poster_Item"=>$row["Poster_Item"],
                    "Poster_Num"=>$row["Poster_Num"]);
+        array_push($a,$b);
       }
-      array_push($a,$b);
     }
     echo json_encode($a);
     $conn->close();

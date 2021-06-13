@@ -16,7 +16,8 @@
 
     $sql = "UPDATE user SET Password='$Password',Phone='$Phone',Address='$Address',Email='$Email'  WHERE id='$idx'";
     $result = $conn->query($sql);
-    echo "ok";
+    echo json_encode(array('message'=>"成功修改資料"));
+    http_response_code(201);
     $conn->close();
   }
 ?>

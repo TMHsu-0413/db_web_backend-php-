@@ -18,13 +18,15 @@
     $sql = "SELECT * FROM user WHERE Account='$Account'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-      echo "重複";
+      echo json_encode(array('message'=>"已有重複帳號"));
+      http_response_code(403);
     }
     else{
       $sql = "INSERT INTO user(Account,Password,Name,Email,Phone,Address,Admin)
               VALUES ('$Account','$Password','$Name','$Email','$Phone','$Address','$Admin')";
       mysqli_query($conn,$sql);
-      echo "已新增";
+      echo json_encode(array('message'=>"已新增使用者"));
+      http_response_code(201);
     }
   }
 ?>

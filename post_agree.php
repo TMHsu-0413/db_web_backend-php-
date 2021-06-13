@@ -12,7 +12,8 @@
     $edit = $input->CanEdit;
     $sql = "UPDATE post SET Verify='1',Date='$date',CanEdit='$edit'  WHERE id='$idx'";
     $result = $conn->query($sql);
-    echo "ok";
+    echo json_encode(array('message'=>"審核貼文通過!"));
+    http_response_code(201);
     $conn->close();
   }
 ?>

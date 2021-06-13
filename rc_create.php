@@ -19,6 +19,7 @@
     $sql = "INSERT INTO request_change(Request_id,Request_Item,Request_Num,Poster_id,Poster_Item,Poster_Num,changed)
             VALUES ('$Request_id','$Request_Item','$Request_Num','$Poster_id','$Poster_Item','$Poster_Num','$changed')";
     mysqli_query($conn,$sql);
-    echo "已新增";
+    echo json_encode(array('message'=>"已發出交換請求!"));
+    http_response_code(201);
   }
 ?>
