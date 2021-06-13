@@ -1,6 +1,5 @@
 <?php
-  header('Content-Type:application/json');
-  header('charset=utf-8');
+  header('Content-Type:application/json;charset=UTF-8');
   header('Access-Control-Allow-Origin: *');
   header('Access-Control-Allow-Methods:GET,POST');
   header('Access-Control-Allow-Headers: *');
@@ -9,7 +8,7 @@
     $input = file_get_contents('php://input');
     $input=json_decode($input);
 
-    $Poster_id=$input->Poster_id;
+    $idx = $input->id;
     $Itemname=$input->Itemname;
     $ItemNum=$input->ItemNum;
     $ImageName=$input->ImageName;
@@ -18,22 +17,14 @@
     $Donate=$input->Donate;
     $WantItemName=$input->WantItemName;
     $WantItemSituation=$input->WantItemSituation;
-    $Verify=$input->Verify;
     $ItemFrom=$input->ItemFrom;
 
-    $sql = "INSERT INTO post(Poster_id,
-    Itemname,
-    ItemNum,
-    ImageName,
-    ItemAddress,
-    ItemSituation,
-    Donate,
-    WantItemName,
-    WantItemSituation,
-    Verify,ItemFrom
-    )
-        VALUES ('$Poster_id','$Itemname','$ItemNum','$ImageName','$ItemAddress','$ItemSituation','$Donate','$WantItemName','$WantItemSituation','$Verify','$ItemFrom')";
-    mysqli_query($conn,$sql);
-    echo "已新增";
+    $sql = "UPDATE post SET Itemname='$Itemname',ItemNum='$ItemNum',ImageName='$ImageName'
+    ,ItemAddress='$ItemAddress',ItemSituation='$ItemSituation',
+    Donate='$Donate',WantItemName='$WantItemName',WantItemSituation='$WantItemSituation'
+    ,ItemFrom='$ItemFrom'  WHERE id='$idx'";
+    $result = $conn->query($sql);
+    echo "ok";
+    $conn->close();
   }
 ?>
