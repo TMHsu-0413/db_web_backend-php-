@@ -3,10 +3,13 @@
   header('Access-Control-Allow-Origin: *');
   header('Access-Control-Allow-Methods:GET,POST');
   header('Access-Control-Allow-Headers: *');
-  if($_SERVER['REQUEST_METHOD'] == 'GET'){
+  if($_SERVER['REQUEST_METHOD'] == 'POST'){
     require "ConnectDB.php";
+    $input = file_get_contents('php://input');
+    $input=json_decode($input);
+    $idx = $input->id;
 
-    $sql = "SELECT * FROM post WHERE Verify='1'";
+    $sql = "SELECT * FROM post WHERE Verify='1' AND Poster_id!='$idx'";
     $result = $conn->query($sql);
     $a=array();
     if ($result->num_rows > 0) {
