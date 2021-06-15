@@ -11,6 +11,7 @@
     $sql = "DELETE FROM post WHERE id='$idx'";
     $result = $conn->query($sql);
     echo json_encode(array('message'=>"貼文未通過審核!"));
+    http_response_code(202);
     $conn->close();
   }
 ?>

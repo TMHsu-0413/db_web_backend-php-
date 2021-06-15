@@ -15,10 +15,11 @@
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
           $id = $row["Poster_id"];
-          $sql2 ="SELECT Name FROM user WHERE id='$id'";
+          $sql2 ="SELECT Name,id FROM user WHERE id='$id'";
           $Name = $conn->query($sql2);
           $row2 = $Name->fetch_assoc();
           $b=array("Poster_id"=>$row2["Name"],
+                   "Poster_id2"=>$row2["id"],
                    "Poster_id1"=>$row["Poster_id"],
                    "Itemname"=>$row["Itemname"],
                    "ItemNum"=>$row["ItemNum"],

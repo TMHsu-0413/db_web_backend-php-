@@ -20,6 +20,7 @@
     $WantItemSituation=$input->WantItemSituation;
     $Verify=$input->Verify;
     $ItemFrom=$input->ItemFrom;
+    $CanEdit=$input->CanEdit;
 
     $sql = "INSERT INTO post(Poster_id,
     Itemname,
@@ -30,10 +31,12 @@
     Donate,
     WantItemName,
     WantItemSituation,
-    Verify,ItemFrom
+    Verify,ItemFrom,
+    CanEdit
     )
-        VALUES ('$Poster_id','$Itemname','$ItemNum','$ImageName','$ItemAddress','$ItemSituation','$Donate','$WantItemName','$WantItemSituation','$Verify','$ItemFrom')";
+        VALUES ('$Poster_id','$Itemname','$ItemNum','$ImageName','$ItemAddress','$ItemSituation','$Donate','$WantItemName','$WantItemSituation','$Verify','$ItemFrom','$CanEdit')";
     mysqli_query($conn,$sql);
-    echo "已新增";
+    echo json_encode(array('message'=>"以新增貼文，待審核"));
+    http_response_code(201);
   }
 ?>
