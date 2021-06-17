@@ -12,6 +12,26 @@ $sql="select * from post ";
 $result=mysqli_query($conn,$sql);
 $objPHPExcel = new PHPExcel();
 
+$color_title = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => 'FF95CA')
+    ),
+);
+
+$color_blue = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => '97CBFF')
+    ),
+);
+$color_purple = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => 'B9B9FF')
+    ),
+);
+$objPHPExcel->getActiveSheet()->freezePane('A2');//凍結
 // 設定檔案屬性
 /*$objPHPExcel
 ->getProperties()  //獲得檔案屬性物件，給下文提供設定資源
@@ -37,7 +57,9 @@ $objPHPExcel->getActiveSheet()->SetCellValue('H1','物品狀況');
 $objPHPExcel->getActiveSheet()->SetCellValue('I1','想交換的物品名稱');
 $objPHPExcel->getActiveSheet()->SetCellValue('J1','想交換的物品狀況');
 $objPHPExcel->getActiveSheet()->SetCellValue('K1','是否捐贈給系統');
-
+$objPHPExcel->getActiveSheet()->freezePane('A2');//凍結
+$objPHPExcel->getActiveSheet()->getStyle("A1:K1")->applyFromArray($color_title);//標題顏色
+$objPHPExcel->getActiveSheet()->getStyle("A1:K1")->getFont()->setBold(true);  //標題設粗體
 $i=2;
 while($row = $result->fetch_array()){
     $sql2="select * from user where id=".$row['Poster_id'];
@@ -60,9 +82,15 @@ while($row = $result->fetch_array()){
     else if($row['Donate']==0){
         $objPHPExcel->getActiveSheet()->SetCellValue('K'.$i,'否');
     }
+    if($i%2==1)
+        $objPHPExcel->getActiveSheet()->getStyle("A".$i.":K".$i)->applyFromArray($color_blue);
+    else
+        $objPHPExcel->getActiveSheet()->getStyle("A".$i.":K".$i)->applyFromArray($color_purple);
     $i++;
 }
-
+foreach(range('A','K') as $columnID) {
+    $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setWidth(15);//寬
+}
 $objActSheet = $objPHPExcel->getActiveSheet();
 $objActSheet->setTitle($fileName); //表的名稱
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

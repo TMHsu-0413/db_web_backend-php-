@@ -23,7 +23,42 @@ $objPHPExcel = new PHPExcel();
 ->setKeywords( "office 2007 openxml php")        //設定標記
 ->setCategory( "Test result file");                //設定類別*/
 
-
+$color_blue = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => '97CBFF')
+    ),
+);
+$color_purple = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => 'B9B9FF')
+    ),
+);
+$color_success = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => '93FF93')
+    ),
+);
+$color_fail = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => 'FF5151')
+    ),
+);
+$color_wait = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => 'D0D0D0')
+    ),
+);
+$color_title = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => 'FF95CA')
+    ),
+);
 // 給表格新增資料
 $objPHPExcel->setActiveSheetIndex(0);             //設定第一個內建表
 $objPHPExcel->getActiveSheet()->SetCellValue('A1','交易者A編號');
@@ -36,6 +71,10 @@ $objPHPExcel->getActiveSheet()->SetCellValue('G1','物品');
 $objPHPExcel->getActiveSheet()->SetCellValue('H1','數量');
 $objPHPExcel->getActiveSheet()->SetCellValue('I1','交易狀態');
 
+$objPHPExcel->getActiveSheet()->freezePane('A2');//凍結
+
+$objPHPExcel->getActiveSheet()->getStyle("A1:I1")->applyFromArray($color_title); //標題顏色
+$objPHPExcel->getActiveSheet()->getStyle("A1:I1")->getFont()->setBold(true);    //標題設粗體
 $i=2;
 while($row = $result->fetch_array()){
     $sql2="select Name from user where id=".$row['Poster_id'] ;
@@ -45,22 +84,34 @@ while($row = $result->fetch_array()){
     $result3=mysqli_query($conn,$sql3);
     $row3 = $result3->fetch_array();
     $objPHPExcel->getActiveSheet()->SetCellValue('A'.$i,$row['Poster_id']);
-    $objPHPExcel->getActiveSheet()->SetCellValue('B'.$i,$row2['Name']);
+    $objPHPExcel->getActiveSheet()->SetCellValue('B'.$i,$row2['Name'] );
     $objPHPExcel->getActiveSheet()->SetCellValue('C'.$i,$row['Poster_Item']);
     $objPHPExcel->getActiveSheet()->SetCellValue('D'.$i,$row['Poster_Num']);
     $objPHPExcel->getActiveSheet()->SetCellValue('E'.$i,$row['Request_id']);
     $objPHPExcel->getActiveSheet()->SetCellValue('F'.$i,$row3['Name']);
     $objPHPExcel->getActiveSheet()->SetCellValue('G'.$i,$row['Request_Item']);
     $objPHPExcel->getActiveSheet()->SetCellValue('H'.$i,$row['Request_Num']);
-    if($row['success']=='1')
+    if($row['success']=='1'){
         $objPHPExcel->getActiveSheet()->SetCellValue('I'.$i,'成功');
-    else if($row['success']=='0')
+        $objPHPExcel->getActiveSheet()->getStyle("I".$i)->applyFromArray($color_success);
+    }
+    else if($row['success']=='0'){
         $objPHPExcel->getActiveSheet()->SetCellValue('I'.$i,'失敗');
-    else
+        $objPHPExcel->getActiveSheet()->getStyle("I".$i)->applyFromArray($color_fail);
+    }
+    else{
         $objPHPExcel->getActiveSheet()->SetCellValue('I'.$i,'待交易');
+        $objPHPExcel->getActiveSheet()->getStyle("I".$i)->applyFromArray($color_wait);
+    }
+        
+        $objPHPExcel->getActiveSheet()->getStyle("A".$i.":D".$i)->applyFromArray($color_blue);
+        $objPHPExcel->getActiveSheet()->getStyle("E".$i.":H".$i)->applyFromArray($color_purple);
+        
     $i++;
 }
-
+foreach(range('A','I') as $columnID) {
+    $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setWidth(15); //寬
+}
 $objActSheet = $objPHPExcel->getActiveSheet();
 $objActSheet->setTitle($fileName); //表的名稱
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

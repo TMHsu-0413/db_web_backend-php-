@@ -12,7 +12,7 @@
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
           $id = $row["Poster_id"];
-          $sql2 ="SELECT Name FROM user";
+          $sql2 ="SELECT Name FROM user WHERE id='$id'";
           $Name = $conn->query($sql2);
           $row2 = $Name->fetch_assoc();
           $b=array("ItemNum"=>$row["ItemNum"],

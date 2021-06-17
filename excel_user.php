@@ -7,10 +7,29 @@ header('Access-Control-Allow-Headers: *');
 require_once "PHPExcel-1.8/Classes/PHPExcel.php";
 require "ConnectDB.php";
 $fileName ="易物媒合用戶資料.xlsx";
-$sql="select * from user ";
+$sql="select * from user where Admin='1'";
 $result=mysqli_query($conn,$sql);
+$sql2="select * from user where Admin='0'";
+$result2=mysqli_query($conn,$sql2);
 $objPHPExcel = new PHPExcel();
-
+$color_title = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => 'FF95CA')
+    ),
+);
+$color_blue = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => '97CBFF')
+    ),
+);
+$color_purple = array(
+    'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color'=> array('rgb' => 'B9B9FF')
+    ),
+);
 // 設定檔案屬性
 /*$objPHPExcel
 ->getProperties()  //獲得檔案屬性物件，給下文提供設定資源
@@ -22,7 +41,10 @@ $objPHPExcel = new PHPExcel();
 ->setKeywords( "office 2007 openxml php")        //設定標記
 ->setCategory( "Test result file");                //設定類別*/
 
+$objPHPExcel->getActiveSheet()->freezePane('A2');//凍結
 
+$objPHPExcel->getActiveSheet()->getStyle("A1:G1")->applyFromArray($color_title);//標題顏色
+$objPHPExcel->getActiveSheet()->getStyle("A1:G1")->getFont()->setBold(true);  //標題設粗體
 // 給表格新增資料
 $objPHPExcel->setActiveSheetIndex(0);             //設定第一個內建表
 $objPHPExcel->getActiveSheet()->SetCellValue('A1','編號');
@@ -40,11 +62,24 @@ while($row = $result->fetch_array()){
     $objPHPExcel->getActiveSheet()->SetCellValue('D'.$i,$row['Email']);
     $objPHPExcel->getActiveSheet()->SetCellValue('E'.$i,$row['Phone']);
     $objPHPExcel->getActiveSheet()->SetCellValue('F'.$i,$row['Address']);
-    if($row['Admin']==1)
-        $objPHPExcel->getActiveSheet()->SetCellValue('G'.$i,'管理者');
-    else if($row['Admin']==0)
-    $objPHPExcel->getActiveSheet()->SetCellValue('G'.$i,'使用者');
+    $objPHPExcel->getActiveSheet()->SetCellValue('G'.$i,'管理者');
+    $objPHPExcel->getActiveSheet()->getStyle("A".$i.":G".$i)->applyFromArray($color_blue);
     $i++;
+} 
+while($row2 = $result2->fetch_array()){
+    $objPHPExcel->getActiveSheet()->SetCellValue('A'.$i,$row2['id']);
+    $objPHPExcel->getActiveSheet()->SetCellValue('B'.$i,$row2['Account']);
+    $objPHPExcel->getActiveSheet()->SetCellValue('C'.$i,$row2['Name']);
+    $objPHPExcel->getActiveSheet()->SetCellValue('D'.$i,$row2['Email']);
+    $objPHPExcel->getActiveSheet()->SetCellValue('E'.$i,$row2['Phone']);
+    $objPHPExcel->getActiveSheet()->SetCellValue('F'.$i,$row2['Address']);
+    $objPHPExcel->getActiveSheet()->SetCellValue('G'.$i,'使用者');
+    $objPHPExcel->getActiveSheet()->getStyle("A".$i.":G".$i)->applyFromArray($color_purple);
+    $i++;
+}
+
+foreach(range('A','G') as $columnID) {
+    $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setWidth(15);//寬
 }
 
 $objActSheet = $objPHPExcel->getActiveSheet();
