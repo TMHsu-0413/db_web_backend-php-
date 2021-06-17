@@ -21,6 +21,7 @@
     $Verify=$input->Verify;
     $ItemFrom=$input->ItemFrom;
     $CanEdit=$input->CanEdit;
+    $trade=$input->trade;
 
     $sql = "INSERT INTO post(Poster_id,
     Itemname,
@@ -32,9 +33,9 @@
     WantItemName,
     WantItemSituation,
     Verify,ItemFrom,
-    CanEdit
+    CanEdit,trade
     )
-        VALUES ('$Poster_id','$Itemname','$ItemNum','$ImageName','$ItemAddress','$ItemSituation','$Donate','$WantItemName','$WantItemSituation','$Verify','$ItemFrom','$CanEdit')";
+        VALUES ('$Poster_id','$Itemname','$ItemNum','$ImageName','$ItemAddress','$ItemSituation','$Donate','$WantItemName','$WantItemSituation','$Verify','$ItemFrom','$CanEdit','$trade')";
     mysqli_query($conn,$sql);
     echo json_encode(array('message'=>"已新增貼文，待審核"));
     http_response_code(201);
