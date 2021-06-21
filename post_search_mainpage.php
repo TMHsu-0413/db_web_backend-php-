@@ -9,7 +9,7 @@
     $input=json_decode($input);
     $idx = $input->id;
 
-    $sql = "SELECT * FROM post WHERE Verify='1' AND Poster_id!='$idx'";
+    $sql = "SELECT * FROM post WHERE Verify='1' AND Poster_id!='$idx' AND trade='0'";
     $result = $conn->query($sql);
     $a=array();
     if ($result->num_rows > 0) {

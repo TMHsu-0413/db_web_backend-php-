@@ -24,7 +24,8 @@
                    "id"=>$row["id"],
                    "Poster_id"=>$row["Poster_id"],
                    "Poster_Item"=>$row["Poster_Item"],
-                   "Poster_Num"=>$row["Poster_Num"]);
+                   "Poster_Num"=>$row["Poster_Num"],
+                   "Poster_primary"=>$row["Poster_primary"]);
         array_push($a,$b);
       }
     }

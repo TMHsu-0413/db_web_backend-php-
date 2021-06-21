@@ -8,7 +8,27 @@
     $input = file_get_contents('php://input');
     $input=json_decode($input);
     $idx = $input->id;
+    $primary = $input->primary;
 
+    $sql="SELECT ItemNum FROM post WHERE id=$primary"; //取貼文的物品數量
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    $ItemNum=$row['ItemNum'];
+
+    $sql="SELECT Poster_Num FROM request_change WHERE id='$idx'"; //取想交換的物品數量
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    $Poster_Num=$row['Poster_Num'];
+
+    if($ItemNum==$Poster_Num){
+      $sql = " DELETE FROM post WHERE id='$primary'";
+      $result = $conn->query($sql);
+    }
+    else{
+      $ItemNum-=$Poster_Num;
+      $sql = "UPDATE post SET ItemNum='$ItemNum' WHERE id='$primary'";
+      $result = $conn->query($sql);
+    }
     $sql = "UPDATE request_change SET success='1',changed='1' WHERE id='$idx'";
     $result = $conn->query($sql);
     echo json_encode(array('message'=>"已同意交換!"));

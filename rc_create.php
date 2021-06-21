@@ -15,9 +15,10 @@
     $Poster_Item=$input->Poster_Item;
     $Poster_Num=$input->Poster_Num;
     $changed=$input->changed;
+    $Poster_primary=$input->Poster_primary;
 
-    $sql = "INSERT INTO request_change(Request_id,Request_Item,Request_Num,Poster_id,Poster_Item,Poster_Num,changed)
-            VALUES ('$Request_id','$Request_Item','$Request_Num','$Poster_id','$Poster_Item','$Poster_Num','$changed')";
+    $sql = "INSERT INTO request_change(Request_id,Request_Item,Request_Num,Poster_id,Poster_Item,Poster_Num,changed,Poster_primary)
+            VALUES ('$Request_id','$Request_Item','$Request_Num','$Poster_id','$Poster_Item','$Poster_Num','$changed','$Poster_primary')";
     mysqli_query($conn,$sql);
     echo json_encode(array('message'=>"已發出交換請求!"));
     http_response_code(201);
